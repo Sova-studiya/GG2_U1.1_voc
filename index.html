@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Vocab Trainer - 4th Grade</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0fdf4;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', cursive;
+        }
+        .btn-bounce {
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+        .btn-bounce:active {
+            transform: scale(0.96);
+        }
+        /* Custom scrollbar for dictionary */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between selection:bg-teal-200">
+
+    <!-- Header -->
+    <header class="bg-white border-b-4 border-teal-500 shadow-sm sticky top-0 z-30">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showScreen('main-menu')">
+                <div class="bg-teal-500 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-xl shadow-md">
+                    📚
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-teal-700 leading-none">English Vocab</h1>
+                    <span class="text-xs font-semibold text-slate-400">4th Grade • A1 Level</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <div class="bg-amber-100 border-2 border-amber-300 text-amber-800 px-3 py-1 rounded-full font-bold text-sm flex items-center gap-1 shadow-sm">
+                    ⭐ <span id="total-stars-count">0</span>
+                </div>
+                <button onclick="showScreen('main-menu')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 p-2 rounded-xl text-sm font-bold transition">
+                    🏠 Меню
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto w-full p-4 flex-grow flex flex-col justify-center">
+
+        <!-- SCREEN 0: MAIN MENU -->
+        <div id="screen-main-menu" class="space-y-6">
+            <div class="text-center space-y-2 py-2">
+                <h2 class="text-3xl font-extrabold text-slate-800">Выбери режим тренировки</h2>
+                <p class="text-slate-500 text-sm">Учи слова, выполняй задания и получай звёзды!</p>
+            </div>
+
+            <!-- Level Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                
+                <!-- Level 1 -->
+                <div onclick="startLevel(1)" class="bg-white p-5 rounded-2xl border-2 border-teal-200 hover:border-teal-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce relative overflow-hidden group">
+                    <div class="flex items-center gap-4">
+                        <div class="text-4xl bg-teal-50 p-3 rounded-2xl">📖</div>
+                        <div>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-teal-600">Уровень 1</span>
+                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-teal-600 transition">Словарик</h3>
+                            <p class="text-xs text-slate-500">Учи слова и слушай произношение</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-end gap-1 text-amber-400 text-sm" id="stars-lvl-1">☆☆☆</div>
+                </div>
+
+                <!-- Level 2 -->
+                <div onclick="startLevel(2)" class="bg-white p-5 rounded-2xl border-2 border-blue-200 hover:border-blue-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce relative overflow-hidden group">
+                    <div class="flex items-center gap-4">
+                        <div class="text-4xl bg-blue-50 p-3 rounded-2xl">💡</div>
+                        <div>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-blue-600">Уровень 2</span>
+                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-blue-600 transition">Слово ➔ Значение</h3>
+                            <p class="text-xs text-slate-500">Подбери правильное описание</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-end gap-1 text-amber-400 text-sm" id="stars-lvl-2">☆☆☆</div>
+                </div>
+
+                <!-- Level 3 -->
+                <div onclick="startLevel(3)" class="bg-white p-5 rounded-2xl border-2 border-indigo-200 hover:border-indigo-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce relative overflow-hidden group">
+                    <div class="flex items-center gap-4">
+                        <div class="text-4xl bg-indigo-50 p-3 rounded-2xl">🔎</div>
+                        <div>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Уровень 3</span>
+                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-indigo-600 transition">Значение ➔ Слово</h3>
+                            <p class="text-xs text-slate-500">Угадай слово по его описанию</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-end gap-1 text-amber-400 text-sm" id="stars-lvl-3">☆☆☆</div>
+                </div>
+
+                <!-- Level 4 -->
+                <div onclick="startLevel(4)" class="bg-white p-5 rounded-2xl border-2 border-purple-200 hover:border-purple-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce relative overflow-hidden group">
+                    <div class="flex items-center gap-4">
+                        <div class="text-4xl bg-purple-50 p-3 rounded-2xl">🎧</div>
+                        <div>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-purple-600">Уровень 4</span>
+                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-purple-600 transition">Аудирование</h3>
+                            <p class="text-xs text-slate-500">Слушай слово и выбирай ответ</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-end gap-1 text-amber-400 text-sm" id="stars-lvl-4">☆☆☆</div>
+                </div>
+
+                <!-- Level 5 -->
+                <div onclick="startLevel(5)" class="bg-white p-5 rounded-2xl border-2 border-emerald-200 hover:border-emerald-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce relative overflow-hidden group">
+                    <div class="flex items-center gap-4">
+                        <div class="text-4xl bg-emerald-50 p-3 rounded-2xl">✏️</div>
+                        <div>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-600">Уровень 5</span>
+                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-emerald-600 transition">Пропущенная буква</h3>
+                            <p class="text-xs text-slate-500">Вставь правильную букву</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-end gap-1 text-amber-400 text-sm" id="stars-lvl-5">☆☆☆</div>
+                </div>
+
+                <!-- Level 6 -->
+                <div onclick="startLevel(6)" class="bg-white p-5 rounded-2xl border-2 border-rose-200 hover:border-rose-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce relative overflow-hidden group">
+                    <div class="flex items-center gap-4">
+                        <div class="text-4xl bg-rose-50 p-3 rounded-2xl">🧩</div>
+                        <div>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-rose-600">Уровень 6</span>
+                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-rose-600 transition">Собери слово</h3>
+                            <p class="text-xs text-slate-500">Составь слово из букв-плашек</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-end gap-1 text-amber-400 text-sm" id="stars-lvl-6">☆☆☆</div>
+                </div>
+
+                <!-- Level 7 -->
+                <div onclick="startLevel(7)" class="bg-white p-5 rounded-2xl border-2 border-amber-200 hover:border-amber-400 shadow-md hover:shadow-xl transition cursor-pointer btn-bounce relative overflow-hidden group sm:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-4">
+                        <div class="text-4xl bg-amber-50 p-3 rounded-2xl">⌨️</div>
+                        <div>
+                            <span class="text-xs font-extrabold uppercase tracking-wider text-amber-600">Уровень 7</span>
+                            <h3 class="text-lg font-bold text-slate-800 group-hover:text-amber-600 transition">Диктант</h3>
+                            <p class="text-xs text-slate-500">Напиши услышанное слово сам</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-end gap-1 text-amber-400 text-sm" id="stars-lvl-7">☆☆☆</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SCREEN 1: DICTIONARY -->
+        <div id="screen-dictionary" class="hidden space-y-4">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-800">📖 Словарик слов (28)</h2>
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <button id="btn-toggle-defs" onclick="toggleDictionaryDefs()" class="flex-1 sm:flex-none px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm transition">
+                        Показать описания
+                    </button>
+                    <button id="btn-autoplay-dict" onclick="toggleAutoplayDict()" class="flex-1 sm:flex-none px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-bold rounded-xl text-sm transition flex items-center justify-center gap-1">
+                        ▶ Озвучить всё
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scrollable Cards -->
+            <div id="dictionary-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-[68vh] overflow-y-auto p-1">
+                <!-- Cards injected by JS -->
+            </div>
+        </div>
+
+        <!-- SCREEN GAME PLAY (Levels 2 - 7) -->
+        <div id="screen-game" class="hidden max-w-2xl mx-auto w-full space-y-4">
+            
+            <!-- Level Progress Bar -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-2">
+                <div class="flex justify-between items-center text-sm font-bold text-slate-500">
+                    <span id="game-level-title" class="text-teal-600 font-extrabold uppercase tracking-wide">Уровень X</span>
+                    <span id="game-progress-text">1 / 28</span>
+                </div>
+                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                    <div id="game-progress-bar" class="bg-teal-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Task Card -->
+            <div class="bg-white p-6 rounded-3xl shadow-md border-2 border-slate-100 flex flex-col items-center text-center space-y-4 relative">
+                
+                <!-- Word Image / Emoji Container -->
+                <div class="relative w-32 h-32 bg-slate-50 border-2 border-slate-100 rounded-2xl flex items-center justify-center p-2 shadow-inner overflow-hidden">
+                    <img id="game-item-img" src="" alt="word image" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'; document.getElementById('game-item-emoji').style.display='block';">
+                    <span id="game-item-emoji" class="text-6xl hidden">❓</span>
+                </div>
+
+                <!-- Prompt / Clue -->
+                <div id="game-prompt-container" class="space-y-2 w-full">
+                    <h3 id="game-prompt-main" class="text-3xl font-extrabold text-slate-800">Word</h3>
+                    <p id="game-prompt-sub" class="text-slate-500 text-sm font-medium">Definition goes here...</p>
+                </div>
+
+                <!-- Audio Replay Button -->
+                <button id="game-audio-btn" onclick="playCurrentAudio()" class="p-3 bg-teal-100 hover:bg-teal-200 text-teal-700 rounded-full text-xl shadow-sm transition btn-bounce flex items-center justify-center gap-2 px-4 font-bold">
+                    🔊 <span class="text-xs">Слушать</span>
+                </button>
+
+                <!-- Dynamic Workspace depending on Level -->
+                <div id="game-workspace" class="w-full pt-2">
+                    <!-- Injected per level: Buttons, Tile letters, or Input -->
+                </div>
+
+                <!-- Feedback Toast -->
+                <div id="game-feedback" class="hidden absolute inset-0 bg-white/95 rounded-3xl flex flex-col items-center justify-center space-y-3 z-10 transition-all">
+                    <div id="feedback-icon" class="text-6xl">✅</div>
+                    <div id="feedback-text" class="text-2xl font-black text-emerald-600">Отлично!</div>
+                    <div id="feedback-subtext" class="text-sm font-bold text-slate-500"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SCREEN END / RESULT -->
+        <div id="screen-result" class="hidden max-w-md mx-auto w-full text-center space-y-6">
+            <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-slate-100 space-y-5">
+                <div class="text-6xl animate-bounce">🎉</div>
+                <h2 class="text-3xl font-black text-slate-800">Уровень пройден!</h2>
+                
+                <!-- Stars -->
+                <div id="result-stars" class="text-5xl text-amber-400 space-x-1">
+                    ★ ★ ★
+                </div>
+
+                <p id="result-stats" class="text-slate-600 font-semibold">
+                    Ты отлично справился со всеми словами!
+                </p>
+
+                <!-- Actions -->
+                <div class="space-y-3 pt-2">
+                    <button onclick="retryLevel()" class="w-full py-3.5 bg-teal-500 hover:bg-teal-600 text-white font-extrabold rounded-2xl shadow-md transition btn-bounce">
+                        🔄 Пройти ещё раз
+                    </button>
+                    <button id="btn-next-level" onclick="goToNextLevel()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold rounded-2xl shadow-md transition btn-bounce">
+                        🚀 Следующий уровень
+                    </button>
+                    <button onclick="showScreen('main-menu')" class="w-full py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold rounded-2xl transition">
+                        🏠 Вернуться в меню
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- 1. VOCABULARY DATA (28 WORDS) ---
+        const VOCABULARY_DATA = [
+            { word: "English", translation: "Английский язык", definition: "The language spoken in the UK, USA, and many other countries.", emoji: "🇬🇧", image: "img/English.png" },
+            { word: "Russian", translation: "Русский язык", definition: "The language spoken in Russia.", emoji: "🇷🇺", image: "img/Russian.png" },
+            { word: "French", translation: "Французский язык", definition: "The language spoken in France.", emoji: "🇫🇷", image: "img/French.png" },
+            { word: "Maths", translation: "Математика", definition: "The school subject where you work with numbers and sums.", emoji: "🔢", image: "img/Maths.png" },
+            { word: "Science", translation: "Естествознание", definition: "The subject where you learn about nature, biology, and chemistry.", emoji: "🔬", image: "img/Science.png" },
+            { word: "Geography", translation: "География", definition: "The subject where you study maps, countries, and rivers.", emoji: "🗺️", image: "img/Geography.png" },
+            { word: "History", translation: "История", definition: "The subject where you learn about the past and famous old events.", emoji: "🏛️", image: "img/History.png" },
+            { word: "Literature", translation: "Литература", definition: "The subject where you read poems, stories, and books.", emoji: "📜", image: "img/Literature.png" },
+            { word: "Computer Studies", translation: "Информатика", definition: "The lesson where you learn to use computers and programs.", emoji: "💻", image: "img/computer_studies.png" },
+            { word: "Handicraft", translation: "Труд / Технология", definition: "The lesson where you make things with your hands, paper, and glue.", emoji: "✂️", image: "img/Handicraft.png" },
+            { word: "Art", translation: "Изобразительное искусство", definition: "The lesson where you draw pictures and paint.", emoji: "🎨", image: "img/Art.png" },
+            { word: "Music", translation: "Музыка", definition: "The lesson where you sing songs and play instruments.", emoji: "🎵", image: "img/Music.png" },
+            { word: "PE", translation: "Физкультура", definition: "Physical Education, where you run, jump, and play sports at school.", emoji: "⚽", image: "img/PE.png" },
+            { word: "book", translation: "Книга", definition: "Pages of text bound together that you read.", emoji: "📖", image: "img/book.png" },
+            { word: "notebook", translation: "Тетрадь", definition: "A book with blank pages for writing your notes in school.", emoji: "📓", image: "img/notebook.png" },
+            { word: "pencil", translation: "Карандаш", definition: "A wooden tool used for writing or drawing.", emoji: "✏️", image: "img/pencil.png" },
+            { word: "paints", translation: "Краски", definition: "Coloured liquids used for painting pictures.", emoji: "🎨", image: "img/paints.png" },
+            { word: "brush", translation: "Кисточка", definition: "A tool with bristles used for painting.", emoji: "🖌️", image: "img/brush.png" },
+            { word: "pencil case", translation: "Пенал", definition: "A small box or pouch for storing pencils and pens.", emoji: "👝", image: "img/pencil case.png" },
+            { word: "pencil sharpener", translation: "Точилка", definition: "A small tool used to sharpen wooden pencils.", emoji: "✏️", image: "img/pencil sharpener.png" },
+            { word: "ruler", translation: "Линейка", definition: "A straight strip of plastic or wood used to measure length.", emoji: "📏", image: "img/ruler.png" },
+            { word: "rubber", translation: "Ластик", definition: "A small piece of rubber used to erase pencil marks.", emoji: "🧹", image: "img/rubber.png" },
+            { word: "gluestick", translation: "Клей-карандаш", definition: "A tube of solid adhesive used to stick paper together.", emoji: "🧪", image: "img/gluestick.png" },
+            { word: "scissors", translation: "Ножницы", definition: "A tool with two blades used for cutting paper.", emoji: "✂️", image: "img/scissors.png" },
+            { word: "dictionary", translation: "Словарь", definition: "A book that explains the meanings of words.", emoji: "📕", image: "img/dictionary.png" },
+            { word: "calculator", translation: "Калькулятор", definition: "An electronic device used for mathematical calculations.", emoji: "🧮", image: "img/calculator.png" },
+            { word: "laptop", translation: "Ноутбук", definition: "A portable computer that you can carry easily.", emoji: "💻", image: "img/laptop.png" },
+            { word: "trainers", translation: "Кроссовки", definition: "Comfortable sports shoes used for running and PE.", emoji: "👟", image: "img/trainers.png" }
+        ];
+
+        // --- 2. GLOBAL APP STATE ---
+        let currentLevel = 1;
+        let queue = [];
+        let totalItemsInLevel = 0;
+        let currentItem = null;
+        let mistakesCount = 0;
+        let userStars = {};
+        let isDictAutoplay = false;
+        let dictAutoplayIndex = 0;
+        let showDictDefs = false;
+
+        // Assembly level state
+        let assembledLetters = [];
+
+        // --- 3. SPEECH SYNTHESIS (TTS) ---
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel(); // Stop ongoing speech
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85; // Slightly slower for 4th graders
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // --- 4. LOCAL STORAGE WRAPPER ---
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem('vocab_a1_stars');
+                if (saved) {
+                    userStars = JSON.parse(saved);
+                }
+            } catch (e) {
+                console.warn('LocalStorage unavailable:', e);
+            }
+            updateStarsUI();
+        }
+
+        function saveStars(level, stars) {
+            try {
+                const prev = userStars[level] || 0;
+                if (stars > prev) {
+                    userStars[level] = stars;
+                    localStorage.setItem('vocab_a1_stars', JSON.stringify(userStars));
+                }
+            } catch (e) {
+                console.warn('LocalStorage save failed:', e);
+            }
+            updateStarsUI();
+        }
+
+        function updateStarsUI() {
+            let total = 0;
+            for (let l = 1; l <= 7; l++) {
+                const count = userStars[l] || 0;
+                total += count;
+                const starEl = document.getElementById(`stars-lvl-${l}`);
+                if (starEl) {
+                    starEl.textContent = '★'.repeat(count) + '☆'.repeat(3 - count);
+                }
+            }
+            document.getElementById('total-stars-count').textContent = total;
+        }
+
+        // --- 5. NAVIGATION ---
+        function showScreen(screenName) {
+            window.speechSynthesis && window.speechSynthesis.cancel();
+            isDictAutoplay = false;
+
+            document.getElementById('screen-main-menu').classList.add('hidden');
+            document.getElementById('screen-dictionary').classList.add('hidden');
+            document.getElementById('screen-game').classList.add('hidden');
+            document.getElementById('screen-result').classList.add('hidden');
+
+            document.getElementById(`screen-${screenName}`).classList.remove('hidden');
+        }
+
+        // --- 6. LEVEL 1: DICTIONARY ---
+        function renderDictionary() {
+            const grid = document.getElementById('dictionary-grid');
+            grid.innerHTML = '';
+
+            VOCABULARY_DATA.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-2xl border-2 border-slate-100 shadow-sm flex flex-col justify-between space-y-3 hover:border-teal-300 transition";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-14 h-14 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center p-1 shrink-0 overflow-hidden">
+                            <img src="${item.image}" alt="${item.word}" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span class="text-3xl hidden">${item.emoji}</span>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h4 class="font-extrabold text-slate-800 text-lg leading-tight truncate">${item.word}</h4>
+                            <p class="text-slate-500 text-xs font-semibold">${item.translation}</p>
+                        </div>
+                    </div>
+                    ${showDictDefs ? `<p class="text-xs text-slate-600 bg-slate-50 p-2 rounded-xl border border-slate-100">${item.definition}</p>` : ''}
+                    <button onclick="speak('${item.word.replace(/'/g, "\\'")}')" class="w-full py-2 bg-teal-50 hover:bg-teal-100 text-teal-700 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                        🔊 Озвучить
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+            saveStars(1, 3); // Level 1 auto-completes stars upon viewing
+        }
+
+        function toggleDictionaryDefs() {
+            showDictDefs = !showDictDefs;
+            document.getElementById('btn-toggle-defs').textContent = showDictDefs ? "Скрыть описания" : "Показать описания";
+            renderDictionary();
+        }
+
+        function toggleAutoplayDict() {
+            if (isDictAutoplay) {
+                isDictAutoplay = false;
+                document.getElementById('btn-autoplay-dict').textContent = "▶ Озвучить всё";
+            } else {
+                isDictAutoplay = true;
+                dictAutoplayIndex = 0;
+                document.getElementById('btn-autoplay-dict').textContent = "⏹ Остановить";
+                playNextDictWord();
+            }
+        }
+
+        function playNextDictWord() {
+            if (!isDictAutoplay || dictAutoplayIndex >= VOCABULARY_DATA.length) {
+                isDictAutoplay = false;
+                document.getElementById('btn-autoplay-dict').textContent = "▶ Озвучить всё";
+                return;
+            }
+            const item = VOCABULARY_DATA[dictAutoplayIndex];
+            speak(item.word);
+            dictAutoplayIndex++;
+            setTimeout(playNextDictWord, 2200);
+        }
+
+        // --- 7. GAME ENGINE & LEVEL MANAGEMENT ---
+        function startLevel(lvl) {
+            currentLevel = lvl;
+            if (lvl === 1) {
+                showScreen('dictionary');
+                renderDictionary();
+                return;
+            }
+
+            // Shuffle all vocabulary words into the game queue
+            queue = [...VOCABULARY_DATA].sort(() => Math.random() - 0.5);
+            totalItemsInLevel = queue.length;
+            mistakesCount = 0;
+
+            const levelTitles = {
+                2: "Уровень 2: Слово ➔ Значение",
+                3: "Уровень 3: Значение ➔ Слово",
+                4: "Уровень 4: Аудирование",
+                5: "Уровень 5: Пропущенная буква",
+                6: "Уровень 6: Собери слово",
+                7: "Уровень 7: Диктант"
+            };
+            document.getElementById('game-level-title').textContent = levelTitles[lvl];
+
+            showScreen('game');
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            if (queue.length === 0) {
+                finishLevel();
+                return;
+            }
+
+            currentItem = queue[0];
+            const currentDone = totalItemsInLevel - queue.length + 1;
+            document.getElementById('game-progress-text').textContent = `${currentDone} / ${totalItemsInLevel}`;
+            document.getElementById('game-progress-bar').style.width = `${((currentDone - 1) / totalItemsInLevel) * 100}%`;
+
+            // Reset UI components
+            const imgEl = document.getElementById('game-item-img');
+            const emojiEl = document.getElementById('game-item-emoji');
+            imgEl.style.display = 'block';
+            emojiEl.style.display = 'none';
+            imgEl.src = currentItem.image;
+            emojiEl.textContent = currentItem.emoji;
+
+            const promptMain = document.getElementById('game-prompt-main');
+            const promptSub = document.getElementById('game-prompt-sub');
+            const audioBtn = document.getElementById('game-audio-btn');
+            const workspace = document.getElementById('game-workspace');
+            workspace.innerHTML = '';
+
+            // Setup level specific views
+            if (currentLevel === 2) {
+                // Word -> Definition
+                promptMain.textContent = currentItem.word;
+                promptSub.textContent = "Выбери правильное описание слова на английском:";
+                audioBtn.style.display = 'inline-flex';
+                speak(currentItem.word);
+
+                renderMultipleChoiceOptions('definition');
+
+            } else if (currentLevel === 3) {
+                // Definition -> Word
+                imgEl.style.display = 'none'; // Hide image to test comprehension
+                emojiEl.style.display = 'none';
+                promptMain.textContent = currentItem.definition;
+                promptMain.className = "text-lg font-bold text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-100";
+                promptSub.textContent = "Какому слову соответствует это описание?";
+                audioBtn.style.display = 'inline-flex';
+                speak(currentItem.definition);
+
+                renderMultipleChoiceOptions('word');
+
+            } else if (currentLevel === 4) {
+                // Audio -> Word
+                imgEl.style.display = 'none';
+                emojiEl.style.display = 'none';
+                promptMain.textContent = "🎧 Слушай слово";
+                promptSub.textContent = "Нажми кнопку, если нужно повторить:";
+                audioBtn.style.display = 'inline-flex';
+                speak(currentItem.word);
+
+                renderMultipleChoiceOptions('word');
+
+            } else if (currentLevel === 5) {
+                // Missing Letter
+                promptMain.textContent = getMissingLetterWord(currentItem.word);
+                promptSub.textContent = currentItem.definition;
+                audioBtn.style.display = 'inline-flex';
+                speak(currentItem.word);
+
+                renderMissingLetterButtons();
+
+            } else if (currentLevel === 6) {
+                // Assemble Word
+                promptMain.textContent = "🧩 Собери слово из букв";
+                promptSub.textContent = currentItem.definition;
+                audioBtn.style.display = 'inline-flex';
+                speak(currentItem.word);
+
+                renderAssembleWordInterface();
+
+            } else if (currentLevel === 7) {
+                // Dictation
+                imgEl.style.display = 'none';
+                emojiEl.style.display = 'none';
+                promptMain.textContent = "⌨️ Диктант";
+                promptSub.textContent = "Прослушай слово и напиши его без ошибок:";
+                audioBtn.style.display = 'inline-flex';
+                speak(currentItem.word);
+
+                renderDictationInterface();
+            }
+        }
+
+        function playCurrentAudio() {
+            if (!currentItem) return;
+            if (currentLevel === 3) {
+                speak(currentItem.definition);
+            } else {
+                speak(currentItem.word);
+            }
+        }
+
+        // --- 8. LEVEL-SPECIFIC RENDERERS ---
+
+        // Helper: Generate distractors
+        function getDistractors(field) {
+            const distractors = VOCABULARY_DATA
+                .filter(i => i.word !== currentItem.word)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3);
+            
+            const options = [...distractors, currentItem].sort(() => Math.random() - 0.5);
+            return options;
+        }
+
+        function renderMultipleChoiceOptions(field) {
+            const options = getDistractors(field);
+            const workspace = document.getElementById('game-workspace');
+            workspace.className = "grid grid-cols-1 sm:grid-cols-2 gap-3 w-full";
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "p-4 bg-slate-50 hover:bg-teal-50 border-2 border-slate-200 hover:border-teal-400 font-bold text-slate-800 rounded-2xl text-left text-sm transition btn-bounce flex items-center justify-between";
+                btn.textContent = opt[field];
+                btn.onclick = () => checkAnswer(opt.word === currentItem.word, opt.word);
+                workspace.appendChild(btn);
+            });
+        }
+
+        function getMissingLetterWord(word) {
+            if (word.length <= 3) return word.charAt(0) + '_' + word.slice(2);
+            const idx = Math.floor(Math.random() * (word.length - 1)) + 1;
+            return word.substring(0, idx) + '_' + word.substring(idx + 1);
+        }
+
+        function renderMissingLetterButtons() {
+            const workspace = document.getElementById('game-workspace');
+            workspace.className = "flex flex-wrap justify-center gap-3 w-full";
+
+            const correctChar = document.getElementById('game-prompt-main').textContent.includes('_') 
+                ? currentItem.word[document.getElementById('game-prompt-main').textContent.indexOf('_')] 
+                : currentItem.word[1];
+
+            const alphabet = "abcdefghijklmnopqrstuvwxyz";
+            let options = [correctChar.toLowerCase()];
+            while (options.length < 4) {
+                const randomChar = alphabet[Math.floor(Math.random() * alphabet.length)];
+                if (!options.includes(randomChar)) options.push(randomChar);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            options.forEach(char => {
+                const btn = document.createElement('button');
+                btn.className = "w-14 h-14 bg-slate-50 hover:bg-teal-100 border-2 border-slate-200 hover:border-teal-400 font-extrabold text-2xl text-slate-800 rounded-2xl transition btn-bounce uppercase flex items-center justify-center";
+                btn.textContent = char;
+                btn.onclick = () => checkAnswer(char.toLowerCase() === correctChar.toLowerCase(), correctChar);
+                workspace.appendChild(btn);
+            });
+        }
+
+        function renderAssembleWordInterface() {
+            assembledLetters = [];
+            const workspace = document.getElementById('game-workspace');
+            workspace.className = "flex flex-col items-center space-y-4 w-full";
+
+            // Letter Slots
+            const targetContainer = document.createElement('div');
+            targetContainer.id = "assemble-target";
+            targetContainer.className = "flex flex-wrap justify-center gap-2 min-h-[56px] p-2 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl w-full";
+
+            // Scrambled Source Tiles
+            const sourceContainer = document.createElement('div');
+            sourceContainer.id = "assemble-source";
+            sourceContainer.className = "flex flex-wrap justify-center gap-2 w-full";
+
+            const scrambled = currentItem.word.replace(/\s+/g, '').split('').sort(() => Math.random() - 0.5);
+
+            scrambled.forEach((char, idx) => {
+                const tile = document.createElement('button');
+                tile.className = "w-11 h-11 bg-white border-2 border-slate-200 text-slate-800 font-extrabold text-lg rounded-xl shadow-sm hover:border-teal-400 btn-bounce uppercase";
+                tile.textContent = char;
+                tile.dataset.char = char;
+                tile.dataset.id = idx;
+                tile.onclick = () => {
+                    assembledLetters.push({ char, id: idx, el: tile });
+                    tile.style.visibility = 'hidden';
+                    updateAssembleUI();
+                };
+                sourceContainer.appendChild(tile);
+            });
+
+            // Action Buttons
+            const actions = document.createElement('div');
+            actions.className = "flex gap-2 w-full pt-2";
+            actions.innerHTML = `
+                <button onclick="resetAssemble()" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 font-bold text-slate-600 rounded-xl text-xs transition">🔄 Сбросить</button>
+                <button onclick="checkAssemble()" class="flex-1 py-2 bg-teal-500 hover:bg-teal-600 font-extrabold text-white rounded-xl text-xs shadow-md transition">✅ Готово</button>
+            `;
+
+            workspace.appendChild(targetContainer);
+            workspace.appendChild(sourceContainer);
+            workspace.appendChild(actions);
+        }
+
+        function updateAssembleUI() {
+            const target = document.getElementById('assemble-target');
+            target.innerHTML = '';
+            assembledLetters.forEach((item, index) => {
+                const tile = document.createElement('div');
+                tile.className = "w-11 h-11 bg-teal-500 text-white font-extrabold text-lg rounded-xl flex items-center justify-center uppercase shadow-sm cursor-pointer";
+                tile.textContent = item.char;
+                tile.onclick = () => {
+                    item.el.style.visibility = 'visible';
+                    assembledLetters.splice(index, 1);
+                    updateAssembleUI();
+                };
+                target.appendChild(tile);
+            });
+        }
+
+        function resetAssemble() {
+            assembledLetters.forEach(item => item.el.style.visibility = 'visible');
+            assembledLetters = [];
+            updateAssembleUI();
+        }
+
+        function checkAssemble() {
+            const userWord = assembledLetters.map(i => i.char).join('').toLowerCase();
+            const targetWord = currentItem.word.replace(/\s+/g, '').toLowerCase();
+            checkAnswer(userWord === targetWord, currentItem.word);
+        }
+
+        function renderDictationInterface() {
+            const workspace = document.getElementById('game-workspace');
+            workspace.className = "flex flex-col items-center space-y-3 w-full max-w-sm mx-auto";
+
+            const input = document.createElement('input');
+            input.type = "text";
+            input.id = "dictation-input";
+            input.placeholder = "Введи слово на английском...";
+            input.className = "w-full p-4 border-2 border-slate-200 focus:border-teal-500 rounded-2xl text-center text-xl font-bold text-slate-800 outline-none shadow-inner";
+            input.onkeydown = (e) => { if (e.key === 'Enter') submitDictation(); };
+
+            const hintBtn = document.createElement('button');
+            hintBtn.className = "text-xs text-amber-600 font-bold hover:underline";
+            hintBtn.textContent = "💡 Подсказка (первая буква)";
+            hintBtn.onclick = () => {
+                input.value = currentItem.word.charAt(0);
+                input.focus();
+            };
+
+            const submitBtn = document.createElement('button');
+            submitBtn.className = "w-full py-3.5 bg-teal-500 hover:bg-teal-600 text-white font-extrabold rounded-2xl shadow-md transition btn-bounce";
+            submitBtn.textContent = "Проверить ответ";
+            submitBtn.onclick = submitDictation;
+
+            workspace.appendChild(input);
+            workspace.appendChild(hintBtn);
+            workspace.appendChild(submitBtn);
+
+            setTimeout(() => input.focus(), 100);
+        }
+
+        function submitDictation() {
+            const input = document.getElementById('dictation-input');
+            if (!input) return;
+            const val = input.value.trim().toLowerCase();
+            const target = currentItem.word.trim().toLowerCase();
+            checkAnswer(val === target, currentItem.word);
+        }
+
+        // --- 9. ANSWER VALIDATION & FEEDBACK ---
+        function checkAnswer(isCorrect, correctAnswerText) {
+            const feedback = document.getElementById('game-feedback');
+            const icon = document.getElementById('feedback-icon');
+            const text = document.getElementById('feedback-text');
+            const subtext = document.getElementById('feedback-subtext');
+
+            feedback.classList.remove('hidden');
+
+            if (isCorrect) {
+                icon.textContent = "✅";
+                text.textContent = "Правильно!";
+                text.className = "text-2xl font-black text-emerald-600";
+                subtext.textContent = currentItem.word + " = " + currentItem.translation;
+                
+                // Remove item from active queue
+                queue.shift();
+            } else {
+                mistakesCount++;
+                icon.textContent = "❌";
+                text.textContent = "Ошибка!";
+                text.className = "text-2xl font-black text-rose-600";
+                subtext.textContent = `Правильный ответ: ${correctAnswerText || currentItem.word}`;
+                
+                // Re-queue item at the end of current level
+                const failedItem = queue.shift();
+                queue.push(failedItem);
+            }
+
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+                nextQuestion();
+            }, 1400);
+        }
+
+        // --- 10. LEVEL RESULTS ---
+        function finishLevel() {
+            showScreen('result');
+
+            // Calculate Stars (3 stars = no errors, 2 stars = 1-3 errors, 1 star = >3 errors)
+            let stars = 3;
+            if (mistakesCount > 3) stars = 1;
+            else if (mistakesCount > 0) stars = 2;
+
+            saveStars(currentLevel, stars);
+
+            document.getElementById('result-stars').textContent = '★'.repeat(stars) + '☆'.repeat(3 - stars);
+            document.getElementById('result-stats').textContent = mistakesCount === 0 
+                ? "Великолепно! Ни одной ошибки!" 
+                : `Хорошая работа! Ошибок сделано: ${mistakesCount}`;
+
+            // Hide Next Level button if at Level 7
+            const nextBtn = document.getElementById('btn-next-level');
+            if (currentLevel >= 7) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'block';
+            }
+        }
+
+        function retryLevel() {
+            startLevel(currentLevel);
+        }
+
+        function goToNextLevel() {
+            if (currentLevel < 7) {
+                startLevel(currentLevel + 1);
+            } else {
+                showScreen('main-menu');
+            }
+        }
+
+        // --- 11. INITIALIZATION ---
+        window.onload = function() {
+            loadProgress();
+            showScreen('main-menu');
+        };
+    </script>
+</body>
+</html>
